@@ -1,44 +1,30 @@
-//https://stackoverflow.com/questions/5823722/how-to-serve-an-image-using-nodejs
+import path from 'path';
+import express from 'express';
+import userRoutes from './userRoutes.js'
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose';
 
-var path = require('path');
-var express = require('express');
 var app = express();
 
-var options = {
-    index: "myWebPage.html"
-  };
+import config from './config.js';
+const PORT = config.port;
+const MONGOURI = config.mongoUri;
 
-var dir = path.join(__dirname, '../frontend');
+await mongoose.connect('mongodb://127.0.0.1/my_database');
 
-app.get('/api', function(req, res){
-    res.send("Yes we have an API now")
-});
 
-// e.g. test using:
-//http://127.0.0.1:8000/api/getPrice?salary=2000&days=20
-app.get('/api/getPrice', function(req, res){
-    //res.send("Hello world!")
-    // Copied from front end
-    var s = req.query.salary;
-    var d = req.query.days;
-    console.log("Calculating price")
-    console.log(s)
-    console.log(d)
-    let finalPrice = 0;
-    dailyRate = s/365;
-    price = Math.round(dailyRate * d);
-    var roundToNearest = 50;
-    roundedPrice = Math.round((price+roundToNearest)/roundToNearest) * roundToNearest // Always round up
-    res.send(""+roundedPrice)
-});
+// parse body params and attache them to req.body
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(express.static(dir, options));
+app.use('/', userRoutes)
 
 // 404 page
 app.use(function ( req, res, next) {
     res.send('This page does not exist!')
 });
 
-app.listen(8000, function () {
-    console.log('Listening on http://localhost:8000/');
+app.listen(PORT, function () {
+    console.log('Listening on http://localhost:'+PORT+'/');
 });
+
