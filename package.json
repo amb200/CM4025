@@ -1,26 +1,30 @@
 {
-  "name": "pricecalculator",
-  "version": "1.0.0",
-  "description": "Single page app for working out cost of a website",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PamJohnston/PriceCalculator.git"
-  },
-  "keywords": [
-    "simple"
-  ],
-  "author": "Pam",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PamJohnston/PriceCalculator/issues"
-  },
-  "homepage": "https://github.com/PamJohnston/PriceCalculator#readme",
-  "dependencies": {
-    "express": "^4.18.2",
-    "path": "^0.12.7"
-  }
+    "name": "CM4025CW",
+    "version": "1.0.0",
+    "description": "work in progress",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/amb200/CM4025/tree/main.git"
+    },
+    "keywords": [
+        "simple"
+    ],
+    "author": "Alex",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/amb200/CM4025/tree/mainissues"
+    },
+    "homepage": "https://github.com/amb200/CM4025/tree/main#readme",
+    "dependencies": {
+        "express": "^4.18.2",
+        "lodash": "^4.17.21",
+        "mongodb": "^5.0.0",
+        "mongoose": "^7.0.3",
+        "path": "^0.12.7"
+    }
 }
