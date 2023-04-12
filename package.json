@@ -1,30 +1,22 @@
 {
-    "name": "CM4025CW",
-    "version": "1.0.0",
-    "description": "work in progress",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/amb200/CM4025/tree/main.git"
-    },
-    "keywords": [
-        "simple"
-    ],
-    "author": "Alex",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/amb200/CM4025/tree/mainissues"
-    },
-    "homepage": "https://github.com/amb200/CM4025/tree/main#readme",
-    "dependencies": {
-        "express": "^4.18.2",
-        "lodash": "^4.17.21",
-        "mongodb": "^5.0.0",
-        "mongoose": "^7.0.3",
-        "path": "^0.12.7"
-    }
+  "name": "project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "connect-mongodb-session": "^3.1.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.0.3",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0"
+  }
 }
