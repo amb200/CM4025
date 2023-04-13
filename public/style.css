@@ -144,7 +144,7 @@ input[type="submit"]:hover {
   background-color: #1ba8d8;
 }
 
-#quote-output {
+#quote{
   margin-left: 45%;
   margin-top: 20px;
   color: #fff;
