@@ -20,6 +20,7 @@ body {
 
 h1 {
   margin: 0;
+  margin-top: 1%;
   padding: 0 0 20px;
   text-align: center;
   font-size: 22px;
@@ -89,6 +90,24 @@ h1 {
   color: #000;
 }
 
+#dashboardBtn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 25px;
+  background-color: #34495e;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#dashboardBtn:hover {
+  background-color: #3e8e41;
+}
+
+
 /*__________________________________________________*/
 
 form {
@@ -144,7 +163,7 @@ input[type="submit"]:hover {
   background-color: #1ba8d8;
 }
 
-#quote{
+#quote {
   margin-left: 45%;
   margin-top: 20px;
   color: #fff;

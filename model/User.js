@@ -18,7 +18,13 @@ const userSchema = new mongoose.Schema({
 	password: {
 		type: String,
 		required: "Password is required"
-	}
+	},
+	savedQuotes: [
+        {
+            quote: String,
+            author: String
+        }
+    ]
 })
 
 userSchema.index({ username: 1 }, { unique: false });

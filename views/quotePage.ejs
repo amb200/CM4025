@@ -6,7 +6,6 @@
   <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
-
 <body>
   <header data-bs-theme="dark">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -35,12 +34,13 @@
     <input type="number" id="estimated-time" name="estimatedTime" min="1" max="10000" required>
     <label for="hourly-rate">Worker:</label>
     <select id="hourly-rate" name="hourlyRate" required>
-      <option value="10">Junior</option>
-      <option value="20">Standard</option>
-      <option value="30">Senior</option>
+      <option value="1">Junior</option>
+      <option value="2">Standard</option>
+      <option value="3">Senior</option>
     </select>
     <input type="submit" value="Get Quote">
   </form>
+
   <div id="quote">Quote: £<%= quote %></div>
 
   </div>

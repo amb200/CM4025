@@ -1,1 +1,57 @@
-<h1>Welcome <%= user.name %></h1>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Quote Page</title>
+  <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+
+<body>
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Quotes4Us</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"href="/logout">Logout</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <h1 >Welcome <%= user.name %></h1>
+  <h1>Your Quotes:</h2>
+  <form>
+  <ul>
+      <% quotes.forEach(function(quote) { %>
+          <li>
+              <p><strong>Estimated Time:</strong> <%= quote.estimatedTime %>h</p>
+              <p><strong>Quote:</strong> £<%= quote.quote %></p>
+              <p hidden id = 'quoteId'><%= quote._id %></p>
+              <form method="POST" action="/deleteQuote">
+                  <input type="hidden" name="quoteId" value="<%= quote._id %>">
+                  <button id = 'dashboardBtn' type="submit">Delete</button>
+              </form>
+          </li>
+      <% }); %>
+  </ul>
+</form>
+
+  </div>
+</body>
+
+</html>
+

@@ -5,6 +5,7 @@ var express = require("express"),
     LocalStrategy = require("passport-local")
 passportLocalMongoose = require("passport-local-mongoose")
 
+
 const User = require("./model/User");
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -82,7 +83,7 @@ app.get("/login", function (req, res) {
 
 //Showing quote form
 app.get("/quotePage", function (req, res) {
-    res.render("quotePage");
+    res.render('quotePage', { quote: 0 });
 });
 
 //Handling user login
@@ -116,9 +117,40 @@ app.get('/dashboard', async function (req, res) {
         res.redirect('/login');
         return;
     }
-    // Retrieve user data from database
-    const user = await User.findById(userId);
-    res.render('dashboard', { user: user });
+    try {
+        // Retrieve user data from database
+        const user = await User.findById(userId);
+
+        // Retrieve all quotes for the current user from the database
+        const quotes = await Quote.find({ userId: userId });
+
+        // Render the dashboard template with user and quote data
+        res.render('dashboard', { user: user, quotes: quotes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Failed to retrieve dashboard data");
+    }
+});
+
+// Handle delete quote request
+app.post('/deleteQuote', async function (req, res) {
+    const userId = req.session.userId;
+    const quoteId = req.body.quoteId;
+
+    if (!userId) {
+        // Redirect to login page if user is not authenticated
+        res.redirect('/login');
+        return;
+    }
+
+    try {
+        // Remove the quote from the database
+        await Quote.findByIdAndDelete(quoteId);
+        res.redirect('/dashboard');
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send("Failed to delete quote from database");
+    }
 });
 
 //Handling user logout
@@ -147,25 +179,27 @@ app.use(bodyParser.json());
 // Handle form submission and save quote to MongoDB
 app.post('/quote', async function (req, res) {
     const userId = req.session.userId;
+    const hourlyRate = req.body.hourlyRate;
+    const estimatedTime = req.body.estimatedTime;
+    hourlyRateRand = (Math.random() * (1.2 - 0.8 + 1) + 0.8).toFixed(1) * hourlyRate *10 ;
+    const quote = hourlyRateRand.toFixed(1) * Number(estimatedTime);
+
+    //if user is not logged in just display quote
     if (!userId) {
-        // Redirect to login page if user is not authenticated
-        res.redirect('/login');
+        res.render('quotePage', { quote: quote });
         return;
     }
 
+    
+    res.render('quotePage', { quote: quote });
 
-    const hourlyRate = req.body.hourlyRate;
-    const estimatedTime = req.body.estimatedTime;
-    hourlyRateRand = (Math.random() * (1.2 - 0.8 + 1) + 0.8).toFixed(1) * hourlyRate;
-    const quote = hourlyRateRand * Number(estimatedTime);
-    res.render('quotePage', { quote: quote })
-
+    //if user is logged in save the quotes
     try {
         const newQuote = await Quote.create({
             userId: userId,
             hourlyRate: hourlyRate,
             estimatedTime: estimatedTime,
-            quote: quote
+            quote: quote,
         });
     }
 
@@ -179,14 +213,12 @@ app.get('/quote', function (req, res) {
     res.render('quotePage', { quote: null });
   });
   
-
-
-
+//check if user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) return next();
     res.redirect("/login");
 }
-
+//start server on port 3000
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
     console.log("Server Has Started!");
