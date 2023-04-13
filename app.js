@@ -3,7 +3,7 @@ var express = require("express"),
     passport = require("passport"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local")
-    passportLocalMongoose = require("passport-local-mongoose")
+passportLocalMongoose = require("passport-local-mongoose")
 
 const User = require("./model/User");
 const session = require('express-session');
@@ -107,19 +107,19 @@ app.post("/login", async function (req, res) {
     }
 });
 
-app.get('/dashboard',async function(req, res){
+app.get('/dashboard', async function (req, res) {
     const userId = req.session.userId;
-  
+
     // Check if user is authenticated
     if (!userId) {
-      // Redirect to login page if user is not authenticated
-      res.redirect('/login');
-      return;
+        // Redirect to login page if user is not authenticated
+        res.redirect('/login');
+        return;
     }
     // Retrieve user data from database
     const user = await User.findById(userId);
     res.render('dashboard', { user: user });
-  });
+});
 
 //Handling user logout
 app.get("/logout", function (req, res) {
@@ -128,6 +128,57 @@ app.get("/logout", function (req, res) {
         res.redirect('/');
     });
 });
+
+// Define a schema for the quote
+const quoteSchema = new mongoose.Schema({
+    userId: String,
+    hourlyRate: Number,
+    estimatedTime: Number,
+    quote: Number,
+    createdAt: { type: Date, default: Date.now }
+});
+
+const Quote = mongoose.model('Quote', quoteSchema);
+
+// Use body-parser middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Handle form submission and save quote to MongoDB
+app.post('/quote', async function (req, res) {
+    const userId = req.session.userId;
+    if (!userId) {
+        // Redirect to login page if user is not authenticated
+        res.redirect('/login');
+        return;
+    }
+
+
+    const hourlyRate = req.body.hourlyRate;
+    const estimatedTime = req.body.estimatedTime;
+    hourlyRateRand = (Math.random() * (1.2 - 0.8 + 1) + 0.8).toFixed(1) * hourlyRate;
+    const quote = hourlyRateRand * Number(estimatedTime);
+    res.render('quotePage', { quote: quote })
+
+    try {
+        const newQuote = await Quote.create({
+            userId: userId,
+            hourlyRate: hourlyRate,
+            estimatedTime: estimatedTime,
+            quote: quote
+        });
+    }
+
+    catch (err) {
+        console.error(err);
+        return res.status(500).send("Failed to save quote to database").redirect('/');
+    }
+});
+
+app.get('/quote', function (req, res) {
+    res.render('quotePage', { quote: null });
+  });
+  
 
 
 
