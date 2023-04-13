@@ -49,10 +49,6 @@ app.get("/", function (req, res) {
     res.render("home");
 });
 
-// Showing secret page
-app.get("/secret", isLoggedIn, function (req, res) {
-    res.render("secret");
-});
 
 app.use(express.static('public'))
 
@@ -107,7 +103,7 @@ app.post("/login", async function (req, res) {
         res.status(400).json({ error });
     }
 });
-
+//Showing dashboard
 app.get('/dashboard', async function (req, res) {
     const userId = req.session.userId;
 
@@ -181,8 +177,10 @@ app.post('/quote', async function (req, res) {
     const userId = req.session.userId;
     const hourlyRate = req.body.hourlyRate;
     const estimatedTime = req.body.estimatedTime;
+    const extraCosts = req.body.extraCosts;
     hourlyRateRand = (Math.random() * (1.2 - 0.8 + 1) + 0.8).toFixed(1) * hourlyRate *10 ;
-    const quote = hourlyRateRand.toFixed(1) * Number(estimatedTime);
+    quote = (hourlyRateRand.toFixed(1) * Number(estimatedTime));
+    quote =  Number(quote) + Number(extraCosts);
 
     //if user is not logged in just display quote
     if (!userId) {
